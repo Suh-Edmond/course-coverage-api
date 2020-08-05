@@ -14,21 +14,24 @@ class CoverageController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+    
     public function index(Request $request)
     {
         $course_id = $request->course_id;
         $coverage = DB::table('coverages')
-            ->join('courses', 'coverages.course_id', '=', 'courses.id')
-            ->join('topics', 'coverages.topic_id', '=', 'topics.id')
-            ->join('activities', 'coverages.activity_id', '=', 'activities.id')
-            ->join('lecturers', 'coverages.lecturer_id', '=', 'lecturers.id')
+            ->join('courses', 'courses.id', '=', 'coverages.course_id')
+            ->join('lecturers', 'lecturers.id', '=', 'coverages.lecturer_id')
+            ->join('topics', 'topics.id', '=', 'coverages.topic_id')
+            ->join('activities', 'activities.id', '=', 'coverages.activity_id')
             ->where('courses.id', '=', $course_id)
             ->select('coverages.day','coverages.period','coverages.week_number', 'topics.name', 
-            'activities.type', 'lecturers.first_name','lecturers.last_name')
+            'activities.type', 'lecturers.user_name')
             ->orderBy('coverages.week_number', 'asc')->get();
+        
         return response()->json($coverage, 200);
     }
 
+ 
     public function getNumberOfCoveredTopics(Request $request)
     {
         $course_id = $request->course_id;
@@ -38,9 +41,10 @@ class CoverageController extends Controller
             ->join('activities', 'coverages.activity_id', '=', 'activities.id')
             ->join('lecturers', 'coverages.lecturer_id', '=', 'lecturers.id')
             ->where('courses.id', '=', $course_id)
-            ->select('coverages.topic_id')->count();  
+            ->select('coverages.topic_id')->distinct()->count(); 
+        
         return response()->json($coverage, 200);
-    }
+    } 
 
 //record coverage
     public function store(Request $request)
@@ -68,10 +72,5 @@ class CoverageController extends Controller
     }
 
 
-
-
-    public function destroy(coverage $coverage)
-    {
-        //
-    }
+ 
 }

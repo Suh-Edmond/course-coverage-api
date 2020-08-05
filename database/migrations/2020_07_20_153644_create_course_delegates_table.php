@@ -15,12 +15,10 @@ class CreateCourseDelegatesTable extends Migration
     {
         Schema::create('course_delegates', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name', 30);
-            $table->string('last_name', 30);
+            $table->string('user_name', 30);
             $table->string('matricule_number');
             $table->string('email', 45);
             $table->string('telephone');
-            $table->string('gender');
             $table->string('password');
             $table->timestamps();
         });

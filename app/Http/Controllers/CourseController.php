@@ -26,6 +26,7 @@ class CourseController extends Controller
     //store course method
     public function store()
     {
+        $course_dele_id =1;
         $data = request()->validate([
             
             'course_code' => 'required|unique:courses',
@@ -34,8 +35,9 @@ class CourseController extends Controller
             'type' => 'required',
             'semester' => 'required'
         ]);
-        $course = Course::create($data);
-        return response()->json($course, 201);
+        $course_id = DB::table('courses')->insertGetId($data);
+        $attends = DB::table('attends')->insert(['course_id'=> $course_id, 'course_delegate_id' => $course_dele_id]);
+        return response()->json($attends, 201);
     }
 
     public function show(Course $course)

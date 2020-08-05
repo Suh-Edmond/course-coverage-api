@@ -19,13 +19,11 @@ class CourseDelegateController extends Controller
     public function store()
     {
         $data = request()->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'user_name' => 'required',
             'matricule_number' => 'required|unique:course_delegates',
             'email' => 'required|email|max:225',
             'telephone' => 'required|numeric',
             'password' => 'required',
-            'gender' => 'required'
         ]);
         $course_del = CourseDelegate::create($data);
         return response()->json($course_del, 201);
@@ -44,13 +42,11 @@ class CourseDelegateController extends Controller
     public function update(Request $request, CourseDelegate $course_delegate)
     {
         $data = request()->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'user_name' => 'required',
             'matricule_number' => 'required',
             'email' => 'required|email|max:225',
             'telephone' => 'required|numeric',
             'password' => 'required',
-            'gender' => 'required'
         ]);
         $course_delegate->update($data);
         return response()->json($course_delegate, 200);
@@ -66,7 +62,7 @@ class CourseDelegateController extends Controller
         $course_del = DB::table('attends')
                     ->join('courses', 'courses.id', '=', 'attends.course_id')
                     ->join('course_delegates', 'course_delegates.id', '=', 'attends.course_delegate_id')
-                    ->select('courses.course_code', 'courses.title', 'course_delegates.first_name', 'course_delegates.last_name'
+                    ->select('courses.course_code', 'courses.title', 'course_delegates.user_name'
                     ,'course_delegates.email','course_delegates.telephone')->get();
         return response()->json($course_del, 200);
     }

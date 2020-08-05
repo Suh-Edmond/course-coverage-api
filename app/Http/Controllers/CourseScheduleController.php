@@ -6,6 +6,7 @@ use App\Course;
 use App\CourseSchedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class CourseScheduleController extends Controller
 {
@@ -19,22 +20,17 @@ class CourseScheduleController extends Controller
     }
 
     //store schedules
-    public function store()
+    public function store(Request $request)
     {
-        $data = request()->validate([
-            'course_id'=>'required',
-            'period'=>'required|string',
-            'day'=>'required|string',
-            'venue'=>'required|string'
-        ]);
-        $schedule = CourseSchedule::create($data);
+        $data  = $request->all();
+        $schedule_data = [
+            'day' => $data['day'],
+            'period' => $data['period'],
+            'course_id' => $data['course_id']['value'],
+            'venue' => $data['venue']
+        ];
+         $schedule = CourseSchedule::create($schedule_data);
         return response()->json($schedule, 201);
-    }
-
-    //show method for  schedules
-    public function show(CourseSchedule $course_schedule)
-    {
-        return response()->json($course_schedule);
     }
 
     //update schedule method
@@ -44,10 +40,4 @@ class CourseScheduleController extends Controller
         return response()->json($course_schedule, 200);
     }
 
-    //delete schedule method
-    public function destroy(CourseSchedule $course_schedule)
-    {
-        $course_schedule->delete();
-        return response()->json(null, 204);
-    }
 }

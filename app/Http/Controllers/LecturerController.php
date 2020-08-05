@@ -25,19 +25,17 @@ class LecturerController extends  Controller
                         ->join('lecturers', 'lecturers.id', '=', 'teaches.lecturer_id')
                         ->join('courses', 'courses.id', '=', 'teaches.course_id')
                         ->where('courses.id', '=', $course_id)
-                        ->select('lecturers.first_name', 'lecturers.last_name')->get();
+                        ->select('lecturers.user_name')->get();
         return response()->json($lecturer, 200);
     }
     //add lecturers
     public function store(Request $request)
     {
         $data = request()->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'user_name' => 'required',
             'matricule_number' => 'required|unique:lecturers',
             'email' => 'required|email|max:225',
             'telephone' => 'required|numeric',
-            'gender' => 'required',
             'password' => 'required',
 
         ]);
@@ -55,12 +53,10 @@ class LecturerController extends  Controller
     public function update(lecturer $lecturer)
     {
         $data = request()->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'user_name' => 'required',
             'matricule_number' => 'required',
             'email' => 'required|email|max:225',
             'telephone' => 'required|numeric',
-            'gender' => 'required',
             'password' => 'required',
 
         ]);

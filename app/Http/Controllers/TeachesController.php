@@ -23,27 +23,40 @@ class TeachesController extends Controller
                           ->join('lecturers', 'teaches.lecturer_id', '=', 'lecturers.id')
                           ->join('courses', 'teaches.course_id', '=', 'courses.id')
                           ->where('courses.id', '=', $course_id['value'])
-                          ->select('lecturers.id','lecturers.first_name', 'lecturers.last_name')->get();
+                          ->select('lecturers.id','lecturers.user_name')->get();
           return response()->json($lecturer, 200);
       }
 
       //add lecturer courses
       public function addLecturerCourse(Request $request) {
-          $lecturer_id = $request->all()[1];
-          $course_id = $request->all()[0];
+          $lecturer_id =1;
+          $course_id = $request->all();
           $lect_course = DB::table('teaches')->insert(['lecturer_id' => $lecturer_id,  'course_id'=> $course_id['value']]);
            return response()->json($lect_course, 201);
       }
 
       //get all course  for a lecturer
-      public function getCourseOfLecturer(Request $request) 
+      public function getLecturerCourse(Request $request) 
       {
-        $lecturer_id =  $request->lecturer_id;
+        $lecturer_id =  1;
         $course = DB::table('teaches')
-                          ->join('lecturers', 'teaches.lecturer_id', '=', 'lecturers.id')
-                          ->join('courses', 'teaches.course_id', '=', 'courses.id')
+                        ->join('courses', 'courses.id', '=', 'teaches.course_id')
+                          ->join('lecturers', 'lecturers.id', '=', 'teaches.lecturer_id')
                           ->where('lecturers.id', '=', $lecturer_id)
                           ->select('courses.id','courses.course_code', 'courses.title','courses.credit_value','courses.type','courses.semester')->get();
-          return response()->json($course, 200);
+         
+        return response()->json($course, 200);
+      }
+      //get course number for a lecturer
+      public function getCourseNumber(Request $request)
+      {
+        $lecturer_id =  1;
+        $course = DB::table('teaches')
+                        ->join('courses', 'courses.id', '=', 'teaches.course_id')
+                          ->join('lecturers', 'lecturers.id', '=', 'teaches.lecturer_id')
+                          ->where('lecturers.id', '=', $lecturer_id)
+                          ->select('courses.id')->distinct()->count();
+         
+        return response()->json($course, 200);
       }
 }
