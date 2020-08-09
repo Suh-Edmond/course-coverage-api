@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lecturer extends Model
 {
-    protected $guarded = [];
-
+    protected $fillable = ['user_name', 'matricule_number', 'email', 'telephone', 'password','created_at', 'updated_at'];
+    public $timestamps = true;
     protected $hidden = [
         'password', 'rememberToken',
     ];

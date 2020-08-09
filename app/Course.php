@@ -7,8 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
 
-    protected $guarded = [];
-
+    protected $fillable = [
+        'course_code',
+        'title',
+        'credit_value',
+        'type',
+        'semester',
+        'created_at',
+        'updated_at',
+    ];
+    public $timestamps = true;
     //course schedule relationship
     public function courseSchedules()
     {

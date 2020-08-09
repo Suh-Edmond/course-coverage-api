@@ -20,13 +20,16 @@ class UserController extends Controller
         $user_details= $request->all()[0];
         $user_type = $request->all()[1];
         $data =[
-            'user_name' => $user_details['user_name'],
-            'matricule_number' => $user_details['matricule_number'],
-            'email' =>$user_details['email'],
-            'telephone' => $user_details['telephone'],
-             'password' => Hash::make($user_details['password'])
-        ];
+              'user_name' =>$user_details['user_name'],
+              'matricule_number' => $user_details['matricule_number'],
+              'email' =>$user_details['email'],
+             'telephone' => $user_details['telephone'],
+             'password' => Hash::make($user_details['password']),
+             'created_at' =>(DB::raw('CURRENT_TIMESTAMP')),
+             'updated_at' =>(DB::raw('CURRENT_TIMESTAMP')),
+         ];
         $res = DB::table($user_type[0])->insert($data);
+           
         return response()->json($res, 201);
         
     }
@@ -37,15 +40,15 @@ class UserController extends Controller
         $entered_user_type = $request->all()[0];
         $entered_user_matricule_number = $request->all()[1];
         $entered_user_password = $request->all()[2];
-        $store_password = DB::table($entered_user_type)
-                ->where($entered_user_type.'.matricule_number', '=', $entered_user_matricule_number)
-                ->select( $entered_user_type.'.password')->get();
-         if(Hash::check($entered_user_password,  $store_password)){
-                print("success");
-         }else{
-             print("Error");
-         }
+        // $store_password = DB::table($entered_user_type)
+        //         ->where($entered_user_type.'.matricule_number', '=', $entered_user_matricule_number)
+        //         ->select( $entered_user_type.'.password')->get();
+        //  if(Hash::check($entered_user_password,  $store_password)){
+        //         print("success");
+        //  }else{
+        //      print("Error");
+        //  }
        
-        return;
+        return response()->json($request->all());
     }
 }

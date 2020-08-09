@@ -17,12 +17,7 @@ class CourseController extends Controller
         return response()->json($courses, 200);
     }
 
-    //names of all courses
-    public function getCourseCode()
-    {
-        $courseCode = Course::all()->pluck('course_code');
-        return response()->json($courseCode, 200);
-    }
+ 
     //store course method
     public function store()
     {
@@ -33,18 +28,30 @@ class CourseController extends Controller
             'title'     => 'required|unique:courses',
             'credit_value' => 'required|min:1',
             'type' => 'required',
-            'semester' => 'required'
+            'semester' => 'required',
+            'created_at' =>(DB::raw('CURRENT_TIMESTAMP')),
+            'updated_at' =>(DB::raw('CURRENT_TIMESTAMP')),
         ]);
-        $course_id = DB::table('courses')->insertGetId($data);
-        $attends = DB::table('attends')->insert(['course_id'=> $course_id, 'course_delegate_id' => $course_dele_id]);
-        return response()->json($attends, 201);
+        $course_id = DB::table('courses')->insertGetId([
+            'course_code' => $data['course_code'],
+            'title' => $data['title'],
+            'credit_value' => $data['credit_value'],
+            'type' => $data['type'],
+            'semester' => $data['semester'],
+            'created_at' =>(DB::raw('CURRENT_TIMESTAMP')),
+            'updated_at' =>(DB::raw('CURRENT_TIMESTAMP')),
+            ]);
+        $attends = DB::table('attends')->insert([
+            'course_id'=> $course_id, 
+            'course_delegate_id' => $course_dele_id,
+            'created_at' =>(DB::raw('CURRENT_TIMESTAMP')),
+            'updated_at' =>(DB::raw('CURRENT_TIMESTAMP')),
+            ]);
+        $courses = $this->index();   
+        return $courses;
     }
 
-    public function show(Course $course)
-    {
-        return response()->json($course, 200);
-    }
-
+ 
 
     //update course profile
     public function update(course $course)
@@ -56,14 +63,15 @@ class CourseController extends Controller
             'type' => 'required',
             'semester' => 'required'
         ]);
-        $course->update($data);
+        $course->update([
+            'course_code' => $data['course_code'],
+            'title' => $data['title'],
+            'credit_value' => $data['credit_value'],
+            'type' => $data['type'],
+            'semester' => $data['semester'],
+            'updated_at' =>(DB::raw('CURRENT_TIMESTAMP')),
+            ]);
         return response()->json($course, 200);
     }
-
-    //delete course
-    public function destroy(course $course)
-    {
-        $course->delete();
-        return response()->json(null, 204);
-    }
+ 
 }

@@ -29,15 +29,16 @@ class CourseScheduleController extends Controller
             'course_id' => $data['course_id']['value'],
             'venue' => $data['venue']
         ];
-         $schedule = CourseSchedule::create($schedule_data);
-        return response()->json($schedule, 201);
+         CourseSchedule::create($schedule_data);
+         $schedules = $this->index();
+        return $schedules;
     }
 
     //update schedule method
     public function update(Request $request, CourseSchedule $course_schedule)
     {
         $course_schedule->update($request->all());
-        return response()->json($course_schedule, 200);
+        return response()($course_schedule, 200);
     }
 
 }

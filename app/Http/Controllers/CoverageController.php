@@ -57,7 +57,9 @@ class CoverageController extends Controller
             'period' => $data['period'],
             'activity_id' => $data['activity_id']['value'],
             'topic_id' => $data['topic_id']['value'],
-            'lecturer_id' => $data['lecturer_id']['value']
+            'lecturer_id' => $data['lecturer_id']['value'],
+            'created_at' =>(DB::raw('CURRENT_TIMESTAMP')),
+            'updated_at' =>(DB::raw('CURRENT_TIMESTAMP')),
         ]; 
         $result = DB::table('coverages')
                     ->insert($coverage_data);

@@ -31,12 +31,18 @@ class TeachesController extends Controller
       public function addLecturerCourse(Request $request) {
           $lecturer_id =1;
           $course_id = $request->all();
-          $lect_course = DB::table('teaches')->insert(['lecturer_id' => $lecturer_id,  'course_id'=> $course_id['value']]);
-           return response()->json($lect_course, 201);
+          $lect_course = DB::table('teaches')->insert([
+            'lecturer_id' => $lecturer_id,  
+            'course_id'=> $course_id['value'],
+            'created_at' =>(DB::raw('CURRENT_TIMESTAMP')),
+            'updated_at' =>(DB::raw('CURRENT_TIMESTAMP')),
+            ]);
+            $selectedCourses = $this->getSelectedCourses($request);
+           return $selectedCourses;
       }
 
       //get all course  for a lecturer
-      public function getLecturerCourse(Request $request) 
+      public function getSelectedCourses(Request $request) 
       {
         $lecturer_id =  1;
         $course = DB::table('teaches')

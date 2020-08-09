@@ -6,7 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Outline extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        'course_id',
+        'year',
+        'created_at',
+        'updated_at',
+    ];
+    public $timestamps = true;
     //course relationship
     public function course()
     {
