@@ -36,8 +36,7 @@ Route::put('course_schedules/{course_schedule}', 'CourseScheduleController@updat
 Route::post('/add_course', 'TeachesController@addLecturerCourse');
 //get all courses for a particuler lecturer
 Route::get('get_selected_courses', 'TeachesController@getSelectedCourses');
-//adding outline
-Route::post('/outline', 'OutlineController@store');
+ 
 //getting lecturer for a particular course
 Route::post('/course_lecturer', 'TeachesController@getCourseLecturers');
 //get course topics
@@ -67,13 +66,18 @@ Route::get('course_delegates', 'CourseDelegateController@getCourseDelegates');
 
 //get course for a particular course delegate
 Route::get('attend_course', 'AttendsController@getAttendCourse');
+//adding outline
+Route::post('outline', 'OutlineController@store');
 //get outline
-Route::get('get_outline', 'OutlineController@getOutline');
+Route::get('get_outline', 'OutlineController@index');///
 //get activities for a topics
 Route::get('topic_activity', 'OutlineController@getActivities');
 
 ////get the number of course delegates for all course of a lecturer
 Route::get('course_delegates_number', 'CourseDelegateController@getNumberCourseDelegates');
+//get user details
+
+Route::post('user_details/{id}', 'UserController@getUserDetails');
 
 
 

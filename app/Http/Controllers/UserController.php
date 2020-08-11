@@ -51,4 +51,17 @@ class UserController extends Controller
        
         return response()->json($request->all());
     }
+    //get user details
+    public function getUserDetails(){
+        //will requried user type and id
+        
+        $user_type="lecturers";//fake user type
+        $user_id =1;//fake user id
+        $user_details = DB::table($user_type)
+                        ->where($user_type.'.id', '=', $user_id)
+                        ->select($user_type.'.user_name', $user_type.'.matricule_number', $user_type.'.email', $user_type.'.telephone')->get();
+       // print_r($user_details[0]['user_name']);
+       // return;
+        return response()->json($user_details,  200);
+    }
 }
