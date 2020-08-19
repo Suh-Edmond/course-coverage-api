@@ -14,17 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-//route for getting all courses
+Route::group(['middleware' => 'auth:api'], function(){
+    //route for getting all courses
 Route::get('courses', 'CourseController@index');
-   //route for adding all courses
+//route for adding all courses
 Route::post('courses', 'CourseController@store');
 //route for getting all activities
 Route::get('activities', 'ActivityController@index');
-    //route for updating all courses
+ //route for updating all courses
 //Route::put('courses/{course}', 'CourseController@update');
 //route for getting all schedule
 Route::get('course_schedules', 'CourseScheduleController@index');
@@ -33,10 +30,10 @@ Route::post('course_schedules', 'CourseScheduleController@store');
 //route for updating all schedule
 Route::put('course_schedules/{course_schedule}', 'CourseScheduleController@update');
 //add courses for a particular  lecturer
-Route::post('/add_course', 'TeachesController@addLecturerCourse');
+Route::post('add_course', 'TeachesController@addLecturerCourse');
 //get all courses for a particuler lecturer
 Route::get('get_selected_courses', 'TeachesController@getSelectedCourses');
- 
+
 //getting lecturer for a particular course
 Route::post('/course_lecturer', 'TeachesController@getCourseLecturers');
 //get course topics
@@ -45,21 +42,19 @@ Route::post('get_course_topics', 'TopicController@getTopicName');
 Route::post('record_course_work', 'CoverageController@store');
 //get course topic number
 Route::post('course_topic_number', 'TopicController@getTopicNumber');
+//get number of topics per week
+Route::get('topics_covered_per_week', 'CoverageController@getTopicsWeeks');
 //get coverage statistic for course
 Route::post('coverage_statistics', 'CoverageController@index');
 //get total number of covered topics
 Route::post('get_number_of_covered_topics', 'CoverageController@getNumberOfCoveredTopics');
 
- //get number of courses for a particular lecturer
- Route::get('course_number', 'TeachesController@getCourseNumber');
+//get number of courses for a particular lecturer
+Route::get('course_number', 'TeachesController@getCourseNumber');
 
-//route to for getting usertype
-Route::post('user_type', 'UserController@setUserType');
-//route for adding user
-Route::post('add_user', 'UserController@addUser');
-
+ 
 //route for login verification
-Route::post('user_login', 'UserController@loginUser');
+Route::post('user', 'UserController@loginUser');
 
 //Route for getting course_delegates
 Route::get('course_delegates', 'CourseDelegateController@getCourseDelegates');
@@ -77,10 +72,90 @@ Route::get('topic_activity', 'OutlineController@getActivities');
 Route::get('course_delegates_number', 'CourseDelegateController@getNumberCourseDelegates');
 //get user details
 
-Route::post('user_details/{id}', 'UserController@getUserDetails');
+Route::get('user_details', 'UserController@getUserDetails');
+
+ 
+Route::get('access_id', 'AccessIdController@generateId');
+Route::get('auth/logout', 'AuthController@logout');
+Route::post('type', 'UserController@getType');
+
+});
+
+ 
+ //route to for getting usertype
+Route::post('user_type', 'UserController@setUserType');
+//route for adding lecturer
+Route::post('add_lecturer', 'UserController@addLecturer');
+//add course delegate
+Route::post('add_course_delegate', 'UserController@addCourseDelegate');
+
+ 
+// //route for getting all courses
+// Route::get('courses', 'CourseController@index');
+//    //route for adding all courses
+// Route::post('courses', 'CourseController@store');
+// //route for getting all activities
+// Route::get('activities', 'ActivityController@index');
+//     //route for updating all courses
+// //Route::put('courses/{course}', 'CourseController@update');
+// //route for getting all schedule
+// Route::get('course_schedules', 'CourseScheduleController@index');
+// //route for adding all schedule
+// Route::post('course_schedules', 'CourseScheduleController@store');
+// //route for updating all schedule
+// Route::put('course_schedules/{course_schedule}', 'CourseScheduleController@update');
+// //add courses for a particular  lecturer
+// Route::post('/add_course', 'TeachesController@addLecturerCourse');
+// //get all courses for a particuler lecturer
+// Route::get('get_selected_courses', 'TeachesController@getSelectedCourses');
+ 
+// //getting lecturer for a particular course
+// Route::post('/course_lecturer', 'TeachesController@getCourseLecturers');
+// //get course topics
+// Route::post('get_course_topics', 'TopicController@getTopicName');
+// //route for recording course work
+// Route::post('record_course_work', 'CoverageController@store');
+// //get course topic number
+// Route::post('course_topic_number', 'TopicController@getTopicNumber');
+// //get number of topics per week
+// Route::get('topics_covered_per_week', 'CoverageController@getTopicsWeeks');
+// //get coverage statistic for course
+// Route::post('coverage_statistics', 'CoverageController@index');
+// //get total number of covered topics
+// Route::post('get_number_of_covered_topics', 'CoverageController@getNumberOfCoveredTopics');
+
+//  //get number of courses for a particular lecturer
+//  Route::get('course_number', 'TeachesController@getCourseNumber');
+
+// //route to for getting usertype
+// Route::post('user_type', 'UserController@setUserType');
+// //route for adding lecturer
+// Route::post('add_lecturer', 'UserController@addLecturer');
+// //add course delegate
+// Route::post('add_course_delegate', 'UserController@addCourseDelegate');
+// //route for login verification
+// Route::post('user_login', 'UserController@loginUser');
+
+// //Route for getting course_delegates
+// Route::get('course_delegates', 'CourseDelegateController@getCourseDelegates');
+
+// //get course for a particular course delegate
+// Route::get('attend_course', 'AttendsController@getAttendCourse');
+// //adding outline
+// Route::post('outline', 'OutlineController@store');
+// //get outline
+// Route::get('get_outline', 'OutlineController@index');///
+// //get activities for a topics
+// Route::get('topic_activity', 'OutlineController@getActivities');
+
+// ////get the number of course delegates for all course of a lecturer
+// Route::get('course_delegates_number', 'CourseDelegateController@getNumberCourseDelegates');
+// //get user details
+
+// Route::post('user_details/{id}', 'UserController@getUserDetails');
 
 
-
+// Route::post('access_id', 'AccessIdController@generateId');
 
 
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCourseDelegatesTable extends Migration
+class AccessId extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,10 @@ class CreateCourseDelegatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('course_delegates', function (Blueprint $table) {
+        Schema::create('course_dele_access_id', function (Blueprint $table) {
             $table->id();
+            $table->string('course_code', 30);
             $table->string('access_id');
-            $table->string('user_name', 30);
-            $table->string('matricule_number');
-            $table->string('email', 45);
-            $table->string('telephone');
-            $table->string('password');
             $table->timestamps();
         });
     }
@@ -32,6 +28,6 @@ class CreateCourseDelegatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('course_delegates');
+        Schema::dropIfExists('course_dele_access_id');
     }
 }

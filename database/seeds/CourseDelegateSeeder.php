@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Faker\Generator as Faker;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Hash;
 class CourseDelegateSeeder extends Seeder
 {
     /**
@@ -13,17 +13,18 @@ class CourseDelegateSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        for ($i = 0; $i < 15; $i++) {
+       // for ($i = 0; $i < 15; $i++) {
             DB::table('course_delegates')->insert([
-                'user_name' => $faker->firstName,
-                'matricule_number' => $faker->bankAccountNumber,
-                'email' => $faker->email,
-                'telephone' => $faker->phoneNumber,
-                'password' => bcrypt($faker->password),
+                'access_id' =>"7532783487328348",
+                'user_name' => "John Doe",
+                'matricule_number' => "SC12A567",
+                'email' => "johndoe@gmail.com",
+                'telephone' => "674584834",
+                'password' => Hash::make("password"),
                 'created_at' => $faker->dateTime,
                 'updated_at' => $faker->dateTime
             ]);
-        }
+        //}
     }
 
 

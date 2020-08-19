@@ -30,6 +30,7 @@ class CoverageSeeder extends Seeder
     {
         for ($i = 0; $i < 200; $i++) {
             DB::table('coverages')->insert([
+                'year' =>"2019/2020",
                 'week_number' => $faker->numberBetween(1, 15),
                 'day' => $faker->dayOfWeek(),
                 'period' => $faker->time(),

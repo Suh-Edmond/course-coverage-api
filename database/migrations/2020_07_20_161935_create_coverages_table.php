@@ -23,6 +23,7 @@ class CreateCoveragesTable extends Migration
             $table->unsignedBigInteger('activity_id');
             $table->unsignedBigInteger('lecturer_id');
             $table->unsignedBigInteger('course_id');
+            $table->string('year');
             $table->timestamps();
             $table->foreign('topic_id')
                 ->references('id')
