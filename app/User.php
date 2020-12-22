@@ -16,9 +16,11 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    protected $fillable = ['first_name','last_name', 'registration_number','user_type_id', 'email', 'telephone', 'password','created_at', 'updated_at'];
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class);
+    }
 
     /**
      * The attributes that should be hidden for arrays.
@@ -38,8 +40,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function findForPassport($username)
-    {
-        return $this->where('identified', $username)->first();
-    }
+    // public function findForPassport($username)
+    // {
+    //     return $this->where('identified', $username)->first();
+    // }
 }

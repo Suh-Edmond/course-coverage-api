@@ -17,17 +17,19 @@ class TeachesSeeder extends Seeder
 
     public function __construct()
     {
-        $this->lecturer = DB::table('lecturers')->count();
+        $this->lecturer = DB::table('users')
+                        ->join('user_types', 'user_types.id', '=', 'users.user_type_id')
+                        ->where('user_types.type', '=', 'Lecturer')
+                        ->select('user_types.id')
+                        ->count();
         $this->course = DB::table('courses')->count();
     }
     public function run(Faker $faker)
     {
-        for ($i = 0; $i < 60; $i++) {
+        for ($i = 0; $i < $this->lecturer; $i++) {
             DB::table('teaches')->insert([
-                'lecturer_id' => random_int(1, $this->lecturer),
+                'user_id' => random_int(1, $this->lecturer),
                 'course_id' => random_int(1, $this->course),
-                'created_at' => $faker->dateTime,
-                'updated_at' => $faker->dateTime
             ]);
         }
     }

@@ -8,9 +8,9 @@ class Teaches extends Model
 {
     protected $fillable = [
         'course_id',
-        'lecturer_id',
+        'user_id',
         'created_at',
         'updated_at',
     ];
-    public $timestamps = true;
+    
 }

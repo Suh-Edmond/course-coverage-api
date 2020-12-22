@@ -25,8 +25,6 @@ class CourseScheduleSeeder extends Seeder
                 'period' => $faker->time(),
                 'venue' => $faker->country,
                 'course_id' => random_int(1, $this->course),
-                'created_at' => $faker->dateTime,
-                'updated_at' => $faker->dateTime
             ]);
         }
     }

@@ -23,16 +23,11 @@ class Course extends Model
         return $this->hasMany(CourseSchedule::class);
     }
 
-    //course_delegate relationship
-    public function course_delegates()
+    public function feedbacks()
     {
-        return $this->belongsToMany(CourseDelegate::class);
+        return $this->hasMany(Feedback::class);
     }
-    //lecturer relationship
-    public function lecturers()
-    {
-        return $this->belongsToMany(Lecturer::class);
-    }
+    
     //outline relationship
     public function outlines()
     {

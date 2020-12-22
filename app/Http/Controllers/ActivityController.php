@@ -10,6 +10,6 @@ class ActivityController extends Controller
     public function index()
     {
         $act = Activity::all();
-        return response()->json($act, 200);
+        return response()->json(['data'=>$act, 'status'=>200]);
     }
 }

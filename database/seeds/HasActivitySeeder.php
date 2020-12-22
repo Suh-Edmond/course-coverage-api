@@ -25,8 +25,6 @@ class HasActivitySeeder extends Seeder
             DB::table('has_activities')->insert([
                 'topic_id' => random_int(1, $this->topic),
                 'activity_id' => random_int(1, $this->activity),
-                'created_at' => $faker->dateTime,
-                'updated_at' => $faker->dateTime
             ]);
         }
     }

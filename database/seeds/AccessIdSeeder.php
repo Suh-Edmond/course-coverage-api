@@ -2,9 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Faker\Generator as Faker;
-use Illuminate\Support\Facades\DB;
-
-class CourseSeeder extends Seeder
+class AccessIdSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,12 +12,9 @@ class CourseSeeder extends Seeder
     public function run(Faker $faker)
     {
         for ($i = 0; $i < 20; $i++) {
-            DB::table('courses')->insert([
+            DB::table('course_dele_access_id')->insert([
                 'course_code' => $faker->creditCardNumber,
-                'title' => $faker->city,
-                'credit_value' => $faker->numberBetween(2, 6),
-                'type' => $faker->creditCardType,
-                'semester' => $faker->countryCode,
+                'access_id' => $faker->company,
             ]);
         }
     }

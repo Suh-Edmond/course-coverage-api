@@ -18,16 +18,18 @@ class AttendsSeeder extends Seeder
     public function __construct()
     {
         $this->course = DB::table('courses')->count();
-        $this->course_delegate = DB::table('course_delegates')->count();
+        $this->course_delegate = DB::table('users')
+                                ->join('user_types', 'user_types.id', '=', 'users.user_type_id')
+                                ->where('user_types.type', '=', 'Course Delegate')
+                                ->select('user_types.id')
+                                ->count();
     }
     public function run(Faker $faker)
     {
-        for ($i = 0; $i < 60; $i++) {
+        for ($i = 0; $i < $this->course_delegate; $i++) {
             DB::table('attends')->insert([
-                'course_delegate_id' => random_int(1, $this->course_delegate),
+                'user_id' => random_int(1, $this->course_delegate),
                 'course_id' => random_int(1, $this->course),
-                'created_at' => $faker->dateTime,
-                'updated_at' => $faker->dateTime
             ]);
         }
     }

@@ -24,8 +24,6 @@ class TopicSeeder extends Seeder
                 'name' => $faker->sentence,
                 'week_number' => $faker->numberBetween(1, 15),
                 'outline_id' => random_int(1, $this->outline),
-                'created_at' => $faker->dateTime,
-                'updated_at' => $faker->dateTime
             ]);
         }
     }

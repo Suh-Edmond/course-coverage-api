@@ -6,91 +6,64 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 class UserController extends Controller
 {
-    //set user type
+    //set user type during resgistration
     public function setUserType(Request $request)
     {
         $type = $request->all();
         return response()->json($type);
     }
+    //get the type for authenticated users during login
    public function getType(Request $request)
    {
        $type = Auth::user()->user_type;
        return response()->json($type);
    }
-    //add user
-    public function addLecturer(Request $request) {
-        $user_details= $request->all()[0];
-        $user_type = $request->all()[1];
-        $data =[
-              'user_name' =>$user_details['user_name'],
-              'matricule_number' => $user_details['matricule_number'],
-              'email' =>$user_details['email'],
-             'telephone' => $user_details['telephone'],
-             'password' => Hash::make($user_details['password']),
-             'created_at' =>(DB::raw('CURRENT_TIMESTAMP')),
-             'updated_at' =>(DB::raw('CURRENT_TIMESTAMP')),
-         ];
-        $res = DB::table($user_type[0])->insertGetId($data);
-                DB::table('users')->insert([
-                    'user_id' =>$res,
-                    'user_type' => $user_type[0],
-                    'identified' => $user_details['email'],
-                    'password' => Hash::make($user_details['password']),
-                ]);
-        return response()->json($res, 201);
-        
-    }
-    //add course delegate
-    public function addCourseDelegate(Request $request) {
-        $user_details= $request->all()[0];
-        $user_type = $request->all()[1];
-        $verify = DB::table('course_dele_access_id')
-                ->where('course_dele_access_id.access_id', '=', $user_details['access_id'] )
-                ->select('course_dele_access_id.id')->get();
-        if($verify == '[]'){
-            $code = 0;
-            return response()->json($code, 200);
-        }
-        else{
-            $data =[
-                'access_id' =>$user_details['access_id'],
-                 'user_name' =>$user_details['user_name'],
-                 'matricule_number' => $user_details['matricule_number'],
-                 'email' =>$user_details['email'],
-                'telephone' => $user_details['telephone'],
-                'password' => Hash::make($user_details['password']),
-                'created_at' =>(DB::raw('CURRENT_TIMESTAMP')),
-                'updated_at' =>(DB::raw('CURRENT_TIMESTAMP')),
-            ];
-           $res = DB::table($user_type[0])->insertGetId($data);
-                  DB::table('users')->insert([
-                      'user_id' =>$res,
-                      'user_type' => $user_type[0],
-                      'identified' =>$user_details['email'],
-                      'password' => Hash::make($user_details['password']),
-                  ]);
-           return response()->json($res, 201);
-        }
-    }
+    
 
-    //login user
-    public function loginUser(Request $request)
-    {
-        $entered_user_type = $request->all();
-        return response()->json( $entered_user_type,200);
-    }
+    // // login user
+    // public function loginUser(Request $request)
+    // {
+    //     $entered_user_type = $request->all();
+    //     return response()->json($entered_user_type,200);
+    // }
     //get user details
-    public function getUserDetails(Request $request){
+    public function getUserDetails(){
         
-        $type = Auth::user()->user_type;
-        $id =Auth::user()->user_id;
-        $user_details = DB::table($type)
-                    ->where($type.'.id', '=', $id)
-                        ->select($type.'.user_name', $type.'.matricule_number', $type.'.email', $type.'.telephone')->get();
+        //$id =Auth::user()->user_id;
+        $user_details = DB::table('users')
+                    ->where('users.id', '=', 151)
+                    ->select('users.id','users.first_name','users.last_name', 'users.registration_number', 'users.email', 'users.telephone')->get();
         
             
         return response()->json($user_details,  200);
+    }
+
+    //update user details
+    public function update(Request $request)
+    {
+        //need to get the current authenticated user id
+        $updated = User::findOrFail(1);
+        $updated->update((array)$request->all());
+        return response()->json(['data'=>$updated,'message'=>"User details has been Successfully updated",'status'=>200]);
+    }
+    //get the number of course delegates for all course of a lecturer
+    public function getNumberCourseDelegates(){
+        //$lecturer_id = Auth::user()->user_id;
+        $lecturer_id =3; //fake lecturer id
+    // $type = Auth::user()->user_type;
+        $course_del_number = DB::table('attends')
+                    ->join('courses', 'courses.id', '=', 'attends.course_id')
+                    ->join('teaches', 'courses.id', '=', 'teaches.course_id')
+                    ->join('users', 'users.id', '=', 'teaches.user_id')
+                    ->join('user_types', 'users.user_type_id', '=', 'user_types.id')
+                    ->where('users.id', '=', $lecturer_id)
+                    ->where('user_types.type','=','Course Delegate')
+                    ->select('users.id')
+                    ->count();
+                    
+        return response()->json(["data" =>$course_del_number, "status"=>200]);
     }
 }

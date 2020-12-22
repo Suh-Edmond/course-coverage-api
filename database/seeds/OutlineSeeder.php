@@ -23,8 +23,6 @@ class OutlineSeeder extends Seeder
             DB::table('outlines')->insert([
                 'year' => $faker->year,
                 'course_id' => random_int(1, $this->course),
-                'created_at' => $faker->dateTime,
-                'updated_at' => $faker->dateTime
             ]);
         }
     }

@@ -16,18 +16,12 @@ class ActivitySeeder extends Seeder
 
         DB::table('activities')->insert([
             'type' => 'Lecture',
-            'created_at' => $faker->dateTime,
-            'updated_at' => $faker->dateTime
         ]);
         DB::table('activities')->insert([
             'type' => 'Tutorial',
-            'created_at' => $faker->dateTime,
-            'updated_at' => $faker->dateTime
         ]);
         DB::table('activities')->insert([
             'type' => 'Practical',
-            'created_at' => $faker->dateTime,
-            'updated_at' => $faker->dateTime
         ]);
     }
 }

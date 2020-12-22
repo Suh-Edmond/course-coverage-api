@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class AccessId extends Migration
 {
@@ -15,9 +16,10 @@ class AccessId extends Migration
     {
         Schema::create('course_dele_access_id', function (Blueprint $table) {
             $table->id();
-            $table->string('course_code', 30);
+            $table->string('course_code');
             $table->string('access_id');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 
