@@ -17,6 +17,7 @@ class CreateFeedbackTable extends Migration
             $table->id();
             $table->unsignedBigInteger('course_id');
             $table->year('year');
+            $table->longText('feedback');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')
                   ->references('id')

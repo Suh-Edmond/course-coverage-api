@@ -23,9 +23,9 @@ use Illuminate\Support\Facades\Route;
     //update course
     Route::put('courses/{course}', 'CourseController@update');
     //delete course
-    Route::delete('courses/{course}', 'CourseController@destory');  
+    Route::delete('courses/{course}', 'CourseController@destory');
     //route for getting all schedule
-    Route::get('courses/schedules', 'CourseScheduleController@index'); 
+    Route::get('courses/schedules', 'CourseScheduleController@index');
     //route for adding all schedule
     Route::post('courses/schedules', 'CourseScheduleController@store');
     //route for updating all schedule
@@ -37,7 +37,7 @@ use Illuminate\Support\Facades\Route;
     //get schedules for course delegates
     Route::get('course_delegate/courses/schedules', 'CourseScheduleController@getCourseSchedulesByCourseDelegate');
     //route for getting all activities
-    Route::get('activities', 'ActivityController@index');       
+    Route::get('activities', 'ActivityController@index');
     //add courses for a particular  lecturer
     Route::post('lecturer/courses/add', 'TeachesController@store');
     //get all courses for a particuler lecturer
@@ -65,13 +65,17 @@ use Illuminate\Support\Facades\Route;
     //get number of course delegate for a lecturer
     Route::get('lecturer/courses/course_delegates/number', 'UserController@getNumberCourseDelegates');
     //get course outline
-    Route::get('course/outline', 'OutlineController@index');   
+    Route::get('course/outline', 'OutlineController@index');
     //route for recording course work
     Route::post('course/record_work_done', 'CoverageController@store');
     //get coverage statistic for course
     Route::post('course/coverage_statistic', 'CoverageController@index');
     //get number of topics per course
     Route::get('course/coverage_statistics/topics_covered', 'CoverageController@getNumberOfCoveredTopics');
+    //Route to add a feedback for a course
+    Route::post('course/feedback','FeedbackController@store');
+    //route to get feedback by a year for a course
+    Route::get('course/feedback', 'FeedbackController@index');
     // //add course outline
      Route::post('course/outline', 'OutlineController@store');
     //get user details
@@ -92,4 +96,3 @@ use Illuminate\Support\Facades\Route;
 
 
 
- 
